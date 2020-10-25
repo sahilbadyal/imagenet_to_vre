@@ -1,33 +1,28 @@
 #!/usr/bin/env python
-# coding: utf-8
+'''
+Author: Sahil Badyal
+This module contains the functions to convert the imagenet attribute dataset to
+VRE dataset
 
-# In[1]:
+This is done by creating a collage from the dataset and then referencing them.
 
+The references are generated as follows:
 
+the <comma sepatated attributes> <synset name>
+eg. the brown and fluffy dog
+'''
 import numpy as np
 import cv2
 from random import sample
 import os
 import json
 
-
-# In[2]:
-
-
 with open('syntoword.json', 'r') as f:
     syntoword = json.load(f)
 with open('attribMap.json', 'r') as f:
     attribMap = json.load(f)
 
-
-# In[3]:
-
-
 np.random.seed(42) ## Done for reproducibility
-
-
-# In[22]:
-
 
 def create_collage(input_dir, collage_size):
     '''
@@ -50,11 +45,7 @@ def create_collage(input_dir, collage_size):
         images_outers.append(image_outer)
     return ((np.vstack(images_outers)), image_names)
 
-
-# In[5]:
-
-
-#hardcoded location references only if the attributres are not present 
+#hardcoded location references only if the attributres are not present
 location_ref = {
     0: "on the top left",
     1: "on the top",
@@ -67,10 +58,6 @@ location_ref = {
     8: "on thebottom right"
 }
 
-
-# In[6]:
-
-
 bounding_boxes = {
     0: [0,0, 300, 200],
     1: [300,0, 300, 200],
@@ -82,10 +69,6 @@ bounding_boxes = {
     7: [300, 400, 300, 200],
     8: [600, 400, 300, 200]
 }
-
-
-# In[7]:
-
 
 def markFaultyFiles(input_dir):
     '''
@@ -101,20 +84,12 @@ def markFaultyFiles(input_dir):
             image_names.append(image_name)
     return image_names
 
-
-# In[8]:
-
-
 def deleteFiles(inp_dir, files):
     '''
     Deletes the files in a directory
     '''
     for file in files:
         os.remove(os.path.join(inp_dir,file))
-
-
-# In[9]:
-
 
 def createRefStatement(id_, syn, synid):
     '''
@@ -148,9 +123,6 @@ def createRefStatement(id_, syn, synid):
     return ref
 
 
-# In[10]:
-
-
 def checkAndCreateDirectory(direc, create=True):
     '''
     This function checks if a directory exits and creates it if the flag is true
@@ -161,23 +133,19 @@ def checkAndCreateDirectory(direc, create=True):
         os.mkdir(direc)
     return False
 
-
-# In[20]:
-
-
 def createDataset(inp_dir, out_dir, length=130):
     '''
     The main loop that created the dataset and stores the information in the output directory
-    
+
     '''
     total_files = 0
     inputcheck = checkAndCreateDirectory(inp_dir, False)
     if not inputcheck:
         raise ValueError(f"Input directory {inp_dir} does not exist. Exiting...")
     checkAndCreateDirectory(out_dir)
-    
+
     global bounding_boxes
-    
+
     reference_image = "ref_image_"
     output_dataset = {}
 
@@ -224,40 +192,21 @@ def createDataset(inp_dir, out_dir, length=130):
     print(f"Total Datapoints Generated  = {total_files}")
     return output_dataset
 
-
-# In[12]:
-
-
 def saveDataset(out_dir,output_dataset):
     with open(out_dir+"vre_dataset.json", 'w') as f:
         json.dump(output_dataset,f)
 
-
-# In[24]:
-
-
 input_directory  = "./data/"
 output_directory = "./dataset_v3/"
 
-# Delete the faulty files, sanity check
-#deleteFiles(input_directory,markFaultyFiles(input_directory))
+if __name__=='__main__':
+    # Delete the faulty files, sanity check
+    deleteFiles(input_directory,markFaultyFiles(input_directory))
 
-## create the dataset
+    ## create the dataset
 
-ds = createDataset(input_directory,output_directory,length=320)
+    ds = createDataset(input_directory,output_directory,length=320)
 
-## Save the dataset
-saveDataset(output_directory, ds)
-
-
-# In[ ]:
-
-
-
-
-
-# In[ ]:
-
-
-
+    ## Save the dataset
+    saveDataset(output_directory, ds)
 
