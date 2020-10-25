@@ -1,54 +1,41 @@
 #!/usr/bin/env python
-# coding: utf-8
-
-# In[1]:
-
-
+'''
+Author: Sahil Badyal
+This module contains the functions to view the  imagenet VRE dataset
+'''
 import json
 import cv2
 import numpy as np
-
-
-# In[2]:
-
-
-with open('dataset_v1/vre_dataset.json', 'r') as f:
-    dataset = json.load(f)
-
-
-# In[3]:
-
+import os
+import sys
+from vre_globals import bounding_boxes
 
 def showImage(x):
+    '''
+    Shows the image and waits for the user input infinitely
+    '''
     cv2.imshow("image", x)
-    cv2.waitKey(0)
+    if cv2.waitKey(0)==ord('e'):
+        sys.exit()
     #closing all open windows
     cv2.destroyAllWindows()
-    #cv2.waitKey(0)
-
-
-# In[4]:
-
 
 def createBoundingBox(img , bb):
+    '''
+    Creates a green bounding box
+    '''
     cv2.rectangle(img, (bb[0], bb[1]), (bb[0]+bb[2], bb[1]+bb[3]), (0, 255, 0), 2)
 
 
-# In[5]:
+inp_dir = './dataset_v3/'
+path  = os.path.join(inp_dir, 'vre_dataset.json')
+with open(path, 'r') as f:
+    dataset = json.load(f)
 
-
-for i,datum in enumerate(dataset):
-        if 'ref' not in datum:
-            continue
-        x = cv2.imread('./dataset_v1/images/'+datum['image']+'.jpg')
-        createBoundingBox(x, datum['bb'])
-        font = cv2.FONT_HERSHEY_SIMPLEX
-        cv2.putText(x, datum['ref'], (10,400), font, 1, (0, 255, 0), 2)
-        showImage(x)
-
-
-# In[ ]:
-
-
-
-
+for i,datum in enumerate(dataset['images']):
+        for reference_pair in datum['reference_pairs']:
+            x = cv2.imread(os.path.join(inp_dir+datum['filename']+'.jpg'))
+            createBoundingBox(x, bounding_boxes[reference_pair['boundingBox_id']])
+            font = cv2.FONT_HERSHEY_SIMPLEX
+            cv2.putText(x, reference_pair['reference'], (10,400), font, 1, (0, 0, 255), 3)
+            showImage(x)

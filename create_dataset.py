@@ -16,6 +16,7 @@ import cv2
 from random import sample
 import os
 import json
+from vre_globals import location_ref, bounding_boxes
 
 with open('syntoword.json', 'r') as f:
     syntoword = json.load(f)
