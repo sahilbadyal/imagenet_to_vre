@@ -18,7 +18,7 @@ The imagenet attribute dataset is a new addition to the already famous dataset. 
 I have used a simple yet effective algorithm to convert this into a VRE dataset:
 
 **Algorithm**
-1. Create a 3x3 collage of images from the original dataset by scaling each image to a fixed size (say 300 by 200 pixels)
+1. Create a 3x3 collage of images from the original dataset by scaling each image to a fixed size (say 300 by 200 pixels).
 2. For each sub-image:
     1. Save its bounding box (or boundaries in the collage).
     2. Create the referring expression with the following rule
@@ -33,7 +33,7 @@ This creates 9 referring expressions per collage.
 
 ### How to use/view and Replicate this work?
 
-#### Usage
+#### Use the dataset (Dropbox account is required (create one if does not exist, its free!))
 
 1. Download dataset from [here](https://www.dropbox.com/s/fjwtkxmr7r3457z/dataset_v3.zip?dl=0).
 
@@ -64,8 +64,8 @@ unzip data.zip
 
 ### Directory structure and files
 
-├── README.md -> *you are here*<br/>
-├── __init__.py -> *tell python its a module*<br/>
+├── README.md ->   *you are here*<br/>
+├── __init__.py ->        *tell python its a module*<br/>
 ├── create_dataset.py -> *used to create the dataset*<br/>
 ├── dataset_browser.py -> *used to view the dataset*<br/>
 ├── imagenet_attributes -> *this folder contains the original imagement attributes dataset*<br/>
@@ -75,10 +75,10 @@ unzip data.zip
 │   ├── syntoid.json -> *maps a synset to the images contained*<br/>
 │   └── syntoword.json -> *maps a synset to the associated words*<br/>
 ├── notebooks -> *Jupyter Notebooks*<br/>
-│   ├── Dataset Browser.ipynb *parent notebooks of the dataset browser <now deprecated>*<br/>
-│   ├── DatasetCreation.ipynb *parent notebooks of the dataset browser <now deprecated>*<br/>
-│   ├── DownloadImages.ipynb *useful for downloading the images using attran.mat*<br/>
-│   ├── GetSynnetWords.ipynb *creates the synttoword.json*<br/>
-│   ├── ImageAttrib.ipynb *creates the attribMap.json*<br/>
-│   └── SynToID.ipynb *creates the stntoid.json*<br/>
+│   ├── Dataset Browser.ipynb -> *parent notebooks of the dataset browser <now deprecated>*<br/>
+│   ├── DatasetCreation.ipynb -> *parent notebooks of the create dataset <now deprecated>*<br/>
+│   ├── DownloadImages.ipynb -> *useful for downloading the images using attran.mat*<br/>
+│   ├── GetSynnetWords.ipynb -> *creates the synttoword.json*<br/>
+│   ├── ImageAttrib.ipynb -> *creates the attribMap.json*<br/>
+│   └── SynToID.ipynb -> *creates the stntoid.json*<br/>
 └── vre_globals.py -> *stores the global dictionaries*<br/>
